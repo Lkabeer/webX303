@@ -1,21 +1,48 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<header id="headerX" class="bg-primary text-white p-4 mb-3">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1 id="header-titleX">X-Team <small>members &#12484;</small></h1>
+      </div>
+
+      <div class="col-md-6 align-self-center">
+        <input type="text" class="form-control" id="filterX" placeholder="Search member...">
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div id="mainX" class="card card-body">
+    <h2 class="titleX">Add New Member yasta</h2>
+    <div class="d-flex mb-3 justify-content-between">
+      <input type="text" class="col-sm-7 form-control" id="newMemberX" #newitem [(ngModel)]="newItem"
+        (keyup.enter)="addItem(newitem.value)">
+      <button class="col-sm-4 btn btn-dark"
+        (click)="addItem(newitem.value)">Add Yasta</button>
+    </div>
+
+    <h2 class="titleX">Members</h2>
+    <ul id="membersX" class="list-group">
+      <li class="list-group-item" *ngFor="let item of items | async; let i = index">
+        <span *ngIf="(editId == i) && editMsg; then showEdit else showMsg"></span>
+        <ng-template #showMsg>{{ item.text }}</ng-template>
+        <ng-template #showEdit>
+          <input type="text" value="{{ item.text }}" #updateText
+            (keyup.enter)="updateItem(item.key, updateText.value)">
+        </ng-template>
+        <button class="deleteX btn btn-danger btn-sm float-right" 
+          (click)="deleteItem(item.key)">X</button>
+        <button class="editX btn btn-danger btn-sm float-right mr-2"
+          (click)="(editMsg = true) && (editId = i)">Edit</button>
+      </li>
+
+      <!-- <li class="list-group-item">Ahmed Samir -->
+        <!-- <button class="btn btn-danger btn-sm float-right deleteX">X</button> -->
+        <!-- <button class="btn btn-danger btn-sm float-right mr-2 editX">Edit</button> -->
+      <!-- </li> -->
+    </ul>
+  </div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
 
 <router-outlet></router-outlet>

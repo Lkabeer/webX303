@@ -6,7 +6,11 @@
       </div>
 
       <div class="col-md-6 align-self-center">
-        <input type="text" class="form-control" id="filterX" placeholder="Search member...">
+        <input 
+          #filterX
+          (keyup)="loadMembers(filterX.value)"
+          type="text" class="form-control" id="filterX" 
+          placeholder="Search member...">
       </div>
     </div>
   </div>
@@ -24,7 +28,7 @@
 
     <h2 class="titleX">Members</h2>
     <ul id="membersX" class="list-group">
-      <li class="list-group-item" *ngFor="let item of items | async; let i = index">
+      <li class="list-group-item" *ngFor="let item of items$ | async; let i = index">
         <span *ngIf="(editId == i) && editMsg; then showEdit else showMsg"></span>
         <ng-template #showMsg>{{ item.text }}</ng-template>
         <ng-template #showEdit>

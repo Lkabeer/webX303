@@ -11,20 +11,15 @@ import { map } from 'rxjs/operators';
 export class AppComponent {
 
   itemsRef: AngularFireList<any>;
-  items: Observable<any[]>;
+  items$: Observable<any[]>;
 
-  newItem = '';
-  editMsg: boolean = false;
+  newItem: string = '';
+  editMember: boolean = false;
   editId: number;
 
-  constructor(db: AngularFireDatabase) {
-    this.itemsRef = db.list('messages');
-    // Use snapshotChanges().map() to store the key
-    this.items = this.itemsRef.snapshotChanges().pipe(
-      map(changes =>
-        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-      )
-    );
+  constructor(public db: AngularFireDatabase) {
+    this.itemsRef = db.list('/messages');
+    this.loadMembers(false);
   }
 
   addItem(newName: string) {
@@ -34,11 +29,27 @@ export class AppComponent {
 
   updateItem(key: string, newText: string) {
     this.itemsRef.update(key, { text: newText });
-    this.editMsg = false;
+    this.editMember = false;
   }
 
   deleteItem(key: string) {
     this.itemsRef.remove(key);
+  }
+
+  loadMembers(filterX) {
+    // Use snapshotChanges().map() to store the key
+    this.items$ = this.itemsRef.snapshotChanges().pipe(
+      map(changes => {
+        //filter Members X-Team 
+        changes = (filterX) ?
+          changes.filter(changes => changes.payload.val().text.toLowerCase().includes(filterX.toLowerCase())) :
+          changes;
+        // Sort Alphabetical X-Team
+        changes = changes.sort((a, b) => a.payload.val().text.toLowerCase() < b.payload.val().text.toLowerCase() ? -1 : 1);
+        // key and value X-Team
+        return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+      })
+    );
   }
 
 }

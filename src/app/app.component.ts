@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -9,6 +9,8 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  @ViewChild('updateText') updateText: ElementRef;
 
   itemsRef: AngularFireList<any>;
   items$: Observable<any[]>;
@@ -27,13 +29,20 @@ export class AppComponent {
     this.newItem = '';
   }
 
+  editItem(i) {
+    this.editMember = true;
+    this.editId = i;
+    setTimeout( () => this.updateText.nativeElement.focus());
+  }
+
   updateItem(key: string, newText: string) {
     this.itemsRef.update(key, { text: newText });
     this.editMember = false;
   }
 
   deleteItem(key: string) {
-    this.itemsRef.remove(key);
+    if(confirm('R u sure u wanna delete this?!'))
+      this.itemsRef.remove(key);
   }
 
   loadMembers(filterX) {
@@ -50,6 +59,10 @@ export class AppComponent {
         return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
       })
     );
+  }
+
+  test() {
+    console.log('test');
   }
 
 }

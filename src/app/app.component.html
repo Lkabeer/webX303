@@ -21,28 +21,28 @@
     <h2 class="titleX">Add New Member yasta</h2>
     <div class="d-flex mb-3 justify-content-between">
       <input 
-        #newitem [(ngModel)]="newItem"
-        (keyup.enter)="addItem(newitem.value)"
+        #newMember [(ngModel)]="newMemberX"
+        (keyup.enter)="addMember(newMember.value)"
         type="text" class="col-sm-7 form-control" id="newMemberX" autofocus>
       <button class="col-sm-4 btn btn-dark"
-        (click)="addItem(newitem.value)">Add Yasta</button>
+        (click)="addMember(newMember.value)">Add Yasta</button>
     </div>
 
     <h2 class="titleX">Members</h2>
     <ul id="membersX" class="list-group">
-      <li *ngFor="let item of items$ | async; let i = index" class="list-group-item form-inline">
-        <span *ngIf="(editId == i) && editMember; then showEdit else showMsg"></span>
-        <ng-template #showMsg>{{ item.text }}</ng-template>
+      <li *ngFor="let member of members$ | async; let i = index" class="list-group-item form-inline">
+        <span *ngIf="(editId == i) && editMemberX; then showEdit else showMsg"></span>
+        <ng-template #showMsg>{{ member.text }}</ng-template>
         <ng-template #showEdit>
           <input
             #updateText
-            (keyup.enter)="updateItem(item.key, updateText.value)"
-            type="text" class="form-control" value="{{ item.text }}"> 
+            (keyup.enter)="updateMember(member.key, updateText.value)"
+            type="text" class="form-control d-inline col-7" value="{{ member.text }}"> 
         </ng-template>
         <button class="deleteX btn btn-danger btn-sm float-right" 
-          (click)="deleteItem(item.key)">X</button>
+          (click)="deleteMember(member.key)">X</button>
         <button class="editX btn btn-danger btn-sm float-right mr-2"
-          (click)="editItem(i)">Edit</button>
+          (click)="editMember(i)">Edit</button>
       </li>
 
       <!-- <li class="list-group-item">Ahmed Samir -->

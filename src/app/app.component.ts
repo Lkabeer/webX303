@@ -56,7 +56,7 @@ export class AppComponent {
         // Sort Alphabetical X-Team
         changes = changes.sort((a, b) => a.payload.val().text.toLowerCase() < b.payload.val().text.toLowerCase() ? -1 : 1);
         // key and value X-Team
-        return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+        return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
       })
     );
   }
